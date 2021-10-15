@@ -1,7 +1,9 @@
 package wtksara.plantfarm.plant;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wtksara.plantfarm.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -19,9 +21,34 @@ public class PlantController {
         return plantRepository.findAll();
     }
 
-    @PostMapping("/plants")
     // Add new plant
+    @PostMapping("/plants")
     public Plant createPlant(@RequestBody Plant plant){
         return plantRepository.save(plant);
+    }
+
+    // Get plant by id
+    @GetMapping("/plants/{id}")
+    public ResponseEntity<Plant> getPlantById(@PathVariable Long id) {
+        Plant plant = plantRepository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Plant not exist with id" + id) );
+        return ResponseEntity.ok(plant);
+    }
+
+    // Update plant details
+    @PutMapping("/plants/{id}")
+    public ResponseEntity<Plant> updatePlant(@PathVariable Long id, @RequestBody Plant plantDetails){
+        Plant plant = plantRepository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Plant not exist with id" + id) );
+
+        plant.setName(plantDetails.getName());
+        plant.setType(plantDetails.getType());
+        plant.setPhoto(plantDetails.getPhoto());
+        plant.setHumidity(plantDetails.getHumidity());
+        plant.setTemperature(plantDetails.getTemperature());
+        plant.setAmountOfDays(plantDetails.getAmountOfDays());
+
+        Plant updatedPlant = plantRepository.save(plant);
+        return ResponseEntity.ok(updatedPlant);
     }
 }

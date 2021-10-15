@@ -26,13 +26,13 @@ public class Plant {
     private Double temperature;
 
     @Column(name ="amountofdays")
-    private Integer amountOfDays;
+    private Double amountOfDays;
 
     public Plant(){
 
     }
 
-    public Plant(String name, String type, String photo, Double humidity, Double temperature, Integer amountOfDays) {
+    public Plant(String name, String type, String photo, Double humidity, Double temperature, Double amountOfDays) {
         this.name = name;
         this.name = type;
         this.photo = photo;
@@ -89,11 +89,11 @@ public class Plant {
         this.temperature = temperature;
     }
 
-    public Integer getAmountOfDays() {
+    public Double getAmountOfDays() {
         return amountOfDays;
     }
 
-    public void setAmountOfDays(Integer amountOfDays) {
+    public void setAmountOfDays(Double amountOfDays) {
         this.amountOfDays = amountOfDays;
     }
 }
