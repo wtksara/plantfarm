@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wtksara.plantfarm.exception.ResourceNotFoundException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
@@ -50,5 +52,16 @@ public class PlantController {
 
         Plant updatedPlant = plantRepository.save(plant);
         return ResponseEntity.ok(updatedPlant);
+    }
+
+    // Delete plant
+    @DeleteMapping("/plants/{id}")
+    public ResponseEntity<Map<String,Boolean>> deletePlant(@PathVariable Long id){
+        Plant plant = plantRepository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Plant not exist with id" + id) );
+        plantRepository.delete(plant);
+        Map<String,Boolean> response = new HashMap<>();
+        response.put ("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }
