@@ -1,5 +1,11 @@
 package wtksara.plantfarm.plant;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import wtksara.plantfarm.cultivation.Cultivation;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -27,6 +33,10 @@ public class Plant {
 
     @Column(name ="amountofdays")
     private Double amountOfDays;
+
+    @JsonIgnore
+    @OneToMany (mappedBy ="plant")
+    private List<Cultivation> cultivations;
 
     public Plant(){
 
@@ -96,5 +106,6 @@ public class Plant {
     public void setAmountOfDays(Double amountOfDays) {
         this.amountOfDays = amountOfDays;
     }
+
 }
 
