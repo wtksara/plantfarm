@@ -29,11 +29,15 @@ public class Cultivation {
     @OneToOne(mappedBy = "cultivation")
     private Patch patch ;
 
+    @Column(name ="grow_patch")
+    private Long growPatch;
+
+    @Column(name ="finished")
+    private Boolean finished;
 
     public Cultivation() {
 
     }
-
 
     public Plant getPlant() {
         return plant;
@@ -42,6 +46,23 @@ public class Cultivation {
     public void setPlant(Plant plant ) {
         this.plant = plant ;
     }
+
+    public Long getGrowPatch() {
+        return growPatch;
+    }
+
+    public void setGrowPatch(Long growPatch) {
+        this.growPatch = growPatch;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
+    }
+
 
 }
 

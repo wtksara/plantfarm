@@ -19,11 +19,13 @@ public class CultivationController {
     @Autowired
     private PlantRepository plantRepository;
 
-    public Cultivation createCultivation(Long plantId) {
+    public Cultivation createCultivation(Long plantId, Long patchId) {
 
         Cultivation cultivation = new Cultivation();
         Plant plant = plantRepository.findById(plantId).get();
         cultivation.setPlant(plant);
+        cultivation.setGrowPatch(patchId);
+        cultivation.setFinished(false);
 
         return cultivationRepository.save(cultivation);
     }

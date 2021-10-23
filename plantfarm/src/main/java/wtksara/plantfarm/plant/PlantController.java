@@ -20,7 +20,7 @@ public class PlantController {
     // Get list of all plants
     @GetMapping("/plants")
     public List<Plant> getAllPlants(){
-        return plantRepository.findAll();
+        return plantRepository.findAllByOrderByIdAsc();
     }
 
     // Add new plant
