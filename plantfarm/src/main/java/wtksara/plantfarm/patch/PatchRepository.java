@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import wtksara.plantfarm.plant.Plant;
+import wtksara.plantfarm.response.PatchDetailsResponse;
 import wtksara.plantfarm.response.PatchResponse;
 
 import java.util.List;
@@ -25,6 +26,15 @@ public interface PatchRepository extends JpaRepository<Patch, Long> {
             "ORDER BY patch.id ASC" )
 
     public List<PatchResponse> getAllPatches();
+
+    @Query("SELECT new wtksara.plantfarm.response.PatchDetailsResponse(" +
+            "patch.id, patch.amountOfDays, " +
+            "plant.name, plant.type, plant.humidity, plant.temperature, plant.amountOfDays)" +
+            "FROM Patch patch " +
+            "LEFT JOIN patch.cultivation cultivation " +
+            "LEFT JOIN patch.cultivation.plant plant " +
+            "ORDER BY patch.id ASC" )
+    public List<PatchDetailsResponse> getAllPatchesDetails();
 
 }
 

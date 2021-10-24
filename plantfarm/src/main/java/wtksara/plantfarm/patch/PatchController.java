@@ -11,6 +11,7 @@ import wtksara.plantfarm.measurement.Measurement;
 import wtksara.plantfarm.measurement.MeasurementRepository;
 import wtksara.plantfarm.plant.Plant;
 import wtksara.plantfarm.plant.PlantRepository;
+import wtksara.plantfarm.response.PatchDetailsResponse;
 import wtksara.plantfarm.response.PatchResponse;
 
 import java.util.List;
@@ -32,10 +33,20 @@ public class PatchController {
     @Autowired
     private CultivationController cultivationController;
 
+    // Get all paches
     @GetMapping("/patches")
     List<PatchResponse> getAllPatches() {
         return patchRepository.getAllPatches();
     }
+
+    // Get all details about patches
+    @GetMapping("/patches/details")
+    List<PatchDetailsResponse> getAllPatchesDetails() {
+        return patchRepository.getAllPatchesDetails();
+    }
+
+
+
 
     // Get patch by id
     @GetMapping("/patches/{id}")

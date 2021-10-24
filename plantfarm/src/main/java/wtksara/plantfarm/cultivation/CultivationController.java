@@ -2,6 +2,7 @@ package wtksara.plantfarm.cultivation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import wtksara.plantfarm.measurement.Measurement;
 import wtksara.plantfarm.plant.Plant;
 import wtksara.plantfarm.plant.PlantRepository;
 
@@ -18,6 +19,14 @@ public class CultivationController {
 
     @Autowired
     private PlantRepository plantRepository;
+
+
+    // Get all details
+    @GetMapping("/patches/info")
+    List<Cultivation> getAllPatchesInfo() {
+        return cultivationRepository.findAll();
+    }
+
 
     public Cultivation createCultivation(Long plantId, Long patchId) {
 

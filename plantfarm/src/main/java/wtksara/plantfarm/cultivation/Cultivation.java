@@ -2,6 +2,7 @@ package wtksara.plantfarm.cultivation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import wtksara.plantfarm.measurement.Measurement;
 import wtksara.plantfarm.patch.Patch;
 import wtksara.plantfarm.plant.Plant;
@@ -17,12 +18,13 @@ public class Cultivation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "plant_id", referencedColumnName = "id")
     private Plant plant;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "cultivation")
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cultivation")
+    @JsonIgnoreProperties("cultivation")
     private List<Measurement> measurements ;
 
     @JsonIgnore
@@ -37,6 +39,13 @@ public class Cultivation {
 
     public Cultivation() {
 
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Plant getPlant() {
@@ -63,6 +72,12 @@ public class Cultivation {
         this.finished = finished;
     }
 
+    public List<Measurement> getMeasurements() {
+        return measurements;
+    }
 
+    public void setMeasurements(List<Measurement> measurements) {
+        this.measurements = measurements;
+    }
 }
 

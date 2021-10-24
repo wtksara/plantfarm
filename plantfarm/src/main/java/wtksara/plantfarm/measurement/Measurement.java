@@ -1,6 +1,7 @@
 package wtksara.plantfarm.measurement;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import wtksara.plantfarm.cultivation.Cultivation;
 
 import javax.persistence.*;
@@ -15,8 +16,9 @@ public class Measurement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cultivation_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("measurements")
     private Cultivation cultivation;
 
     @JsonFormat(pattern="yyyy-MM-dd")
