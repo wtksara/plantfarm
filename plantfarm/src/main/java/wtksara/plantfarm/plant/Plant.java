@@ -5,6 +5,7 @@ import wtksara.plantfarm.cultivation.Cultivation;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -107,5 +108,24 @@ public class Plant {
         this.amountOfDays = amountOfDays;
     }
 
-}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plant plant = (Plant) o;
+        return Objects.equals(id, plant.id) &&
+                Objects.equals(name, plant.name) &&
+                Objects.equals(type, plant.type) &&
+                Objects.equals(photo, plant.photo) &&
+                Objects.equals(humidity, plant.humidity) &&
+                Objects.equals(temperature, plant.temperature) &&
+                Objects.equals(amountOfDays, plant.amountOfDays) &&
+                Objects.equals(cultivations, plant.cultivations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, type, photo, humidity, temperature, amountOfDays, cultivations);
+    }
+}

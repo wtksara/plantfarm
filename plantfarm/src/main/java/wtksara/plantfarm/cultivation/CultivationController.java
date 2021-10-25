@@ -20,11 +20,10 @@ public class CultivationController {
     @Autowired
     private PlantRepository plantRepository;
 
-
     // Get all details
-    @GetMapping("/patches/info")
-    List<Cultivation> getAllPatchesInfo() {
-        return cultivationRepository.findAll();
+    @GetMapping("/cultivation")
+    public List<Cultivation> getAllCultivations() {
+        return cultivationRepository.findAllByOrderByIdDesc();
     }
 
 

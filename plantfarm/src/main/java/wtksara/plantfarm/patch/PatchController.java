@@ -35,18 +35,9 @@ public class PatchController {
 
     // Get all paches
     @GetMapping("/patches")
-    List<PatchResponse> getAllPatches() {
+    public List<PatchResponse> getAllPatches() {
         return patchRepository.getAllPatches();
     }
-
-    // Get all details about patches
-    @GetMapping("/patches/details")
-    List<PatchDetailsResponse> getAllPatchesDetails() {
-        return patchRepository.getAllPatchesDetails();
-    }
-
-
-
 
     // Get patch by id
     @GetMapping("/patches/{id}")

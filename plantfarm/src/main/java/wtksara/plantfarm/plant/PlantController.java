@@ -1,13 +1,16 @@
 package wtksara.plantfarm.plant;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import wtksara.plantfarm.exception.ResourceNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
@@ -15,53 +18,45 @@ import java.util.Map;
 public class PlantController {
 
     @Autowired
-    private PlantRepository plantRepository;
+    private PlantService plantService;
 
     // Get list of all plants
     @GetMapping("/plants")
-    public List<Plant> getAllPlants(){
-        return plantRepository.findAllByOrderByIdAsc();
+    public List<Plant> getAllPlants() {
+        return plantService.findAllByOrderByIdAsc();
     }
 
     // Add new plant
     @PostMapping("/plants")
-    public Plant createPlant(@RequestBody Plant plant){
-        return plantRepository.save(plant);
+    public Plant createPlant(@RequestBody Plant plant) {
+        return plantService.createPlant(plant);
+    }
+
+    @PostMapping(
+            path = "plants/{id}/upload",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public void uploadPlantImage(@PathVariable Long id, @RequestParam MultipartFile file) {
+        plantService.uploadPlantImage(id, file);
+
     }
 
     // Get plant by id
     @GetMapping("/plants/{id}")
     public ResponseEntity<Plant> getPlantById(@PathVariable Long id) {
-        Plant plant = plantRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Plant not exist with id" + id) );
-        return ResponseEntity.ok(plant);
+        return plantService.getPlantById(id);
     }
 
     // Update plant details
     @PutMapping("/plants/{id}")
-    public ResponseEntity<Plant> updatePlant(@PathVariable Long id, @RequestBody Plant plantDetails){
-        Plant plant = plantRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Plant not exist with id" + id) );
-
-        plant.setName(plantDetails.getName());
-        plant.setType(plantDetails.getType());
-        plant.setPhoto(plantDetails.getPhoto());
-        plant.setHumidity(plantDetails.getHumidity());
-        plant.setTemperature(plantDetails.getTemperature());
-        plant.setAmountOfDays(plantDetails.getAmountOfDays());
-
-        Plant updatedPlant = plantRepository.save(plant);
-        return ResponseEntity.ok(updatedPlant);
+    public ResponseEntity<Plant> updatePlant(@PathVariable Long id, @RequestBody Plant plantDetails) {
+        return plantService.updatePlant(id, plantDetails);
     }
 
     // Delete plant
     @DeleteMapping("/plants/{id}")
-    public ResponseEntity<Map<String,Boolean>> deletePlant(@PathVariable Long id){
-        Plant plant = plantRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Plant not exist with id" + id) );
-        plantRepository.delete(plant);
-        Map<String,Boolean> response = new HashMap<>();
-        response.put ("deleted", Boolean.TRUE);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, Boolean>> deletePlant(@PathVariable Long id) {
+        return plantService.deletePlant(id);
     }
 }
