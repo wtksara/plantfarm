@@ -8,6 +8,8 @@ import wtksara.plantfarm.patch.Patch;
 import wtksara.plantfarm.patch.PatchRepository;
 import wtksara.plantfarm.plant.Plant;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -22,20 +24,21 @@ public class MeasurementController {
     @Autowired
     private PatchRepository patchRepository;
 
-    // Add new plant
-    @PostMapping("/measurement")
-    public Measurement createMeasurement(@RequestBody Long patchId, @RequestBody Date date, @RequestBody Double humidity, @RequestBody Double temperature)
-    {
-        Patch patch = patchRepository.findById(patchId).get();
+    public void createMeasurement(Long patchId, Double humidity, Double temperature) {
+        Cultivation cultivation = patchRepository.findById(patchId).get().getCultivation();
 
-        Measurement measurement = new Measurement();
+        if (cultivation != null) {
 
-        measurement.setCultivation(patch.getCultivation());
-        measurement.setDate(date);
-        measurement.setHumidity(humidity);
-        measurement.setTemperature(temperature);
+            Measurement measurement = new Measurement();
+            measurement.setCultivation(cultivation);
+            measurement.setHumidity(humidity);
+            measurement.setTemperature(temperature);
 
-        return measurementRepository.save(measurement);
+            Date date = new Date();
+            measurement.setDate(date);
+
+            measurementRepository.save(measurement);
+        }
     }
 }
 
