@@ -21,8 +21,7 @@ public class Measurement {
     @JsonIgnoreProperties("measurements")
     private Cultivation cultivation;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
-    //  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name ="date")
     private Date date;
 
@@ -32,6 +31,8 @@ public class Measurement {
     @Column(name ="temperature")
     private Double temperature;
 
+    @Column(name ="insolation")
+    private Double insolation;
 
     public Long getId() {
         return id;
@@ -57,13 +58,9 @@ public class Measurement {
         this.temperature = temperature;
     }
 
-    public Cultivation getCultivation() {
-        return cultivation;
-    }
+    public Double getInsolation() { return insolation; }
 
-    public void setCultivation(Cultivation cultivation) {
-        this.cultivation = cultivation;
-    }
+    public void setInsolation(Double insolation) { this.insolation = insolation; }
 
     public Date getDate() {
         return date;
@@ -71,6 +68,14 @@ public class Measurement {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Cultivation getCultivation() {
+        return cultivation;
+    }
+
+    public void setCultivation(Cultivation cultivation) {
+        this.cultivation = cultivation;
     }
 
 }

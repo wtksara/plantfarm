@@ -27,13 +27,13 @@ public class PlantfarmApplication {
 
 	@PostConstruct
 	protected void init(){
-		List<Authority> authorityList = new ArrayList<>();
-		authorityList.add(createAuthority("ADMIN"));
-		Client user = new Client();
-		user.setUsername("admin");
-		user.setPassword(passwordEncoder.encode(("admin")));
-		user.setEnabled(true);
-		userRepository.save(user);
+//		List<Authority> authorityList = new ArrayList<>();
+//		authorityList.add(createAuthority("ADMIN"));
+//		Client user = new Client();
+//		user.setUsername("admin");
+//		user.setPassword(passwordEncoder.encode(("admin")));
+//		user.setEnabled(true);
+//		userRepository.save(user);
 	}
 
 	private Authority createAuthority (String role){

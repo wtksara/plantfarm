@@ -11,5 +11,6 @@ public interface PlantRepository extends JpaRepository<Plant, Long> {
 
    public List<Plant> findAllByOrderByIdAsc();
 
+   public List<Plant> findTop3ByOrderByIdAsc();
 }
 

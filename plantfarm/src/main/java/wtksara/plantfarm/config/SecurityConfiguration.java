@@ -49,17 +49,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint).and()
                 .authorizeRequests((request) ->
-                        request.antMatchers("/api/*",
-                                "/api/plants/*",
-                                "/api/patches/*",
-                                "/api/patches/*/plant/*",
+                        request.antMatchers(
+                                "/api/plants/show",
                                 "/api/plants/*/download",
-                                "/api/auth/login").permitAll()
+                                "/api/cultivation",
+                                "/api/patches",
+                                "/api/tank",
+                                "/api/auth/login"
+                        ).permitAll()
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated())
                 .addFilterBefore(new JWTAuthenticationFilter(clientService, jwtTokenHelper),
                         UsernamePasswordAuthenticationFilter.class);
-
-        http.cors();
         http.csrf().disable().headers().frameOptions().disable();
     }
 

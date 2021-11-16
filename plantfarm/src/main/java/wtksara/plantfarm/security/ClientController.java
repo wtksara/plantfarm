@@ -25,13 +25,10 @@ public class ClientController {
     @Autowired
     JWTTokenHelper jWTTokenHelper;
 
-    @Autowired
-    private ClientService clientService;
-
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Client client = (Client) authentication.getPrincipal();

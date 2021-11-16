@@ -41,6 +41,8 @@ public class PlantService {
         return plantRepository.findAllByOrderByIdAsc();
     }
 
+    public List<Plant> findTop3ByOrderByIdAsc() { return plantRepository.findTop3ByOrderByIdAsc();}
+
     public Plant createPlant(Plant plant){
         return plantRepository.save(plant);
     }
@@ -149,4 +151,6 @@ public class PlantService {
         response.put ("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
+
+
 }
