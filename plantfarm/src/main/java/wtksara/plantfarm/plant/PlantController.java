@@ -60,9 +60,16 @@ public class PlantController {
     }
 
     // Update plant details
-    @PutMapping("/plants/{id}")
-    public ResponseEntity<Plant> updatePlant(@PathVariable Long id, @RequestBody Plant plantDetails) {
-        return plantService.updatePlant(id, plantDetails);
+    @PutMapping(path = "/plants/update", headers={"Accept=application/json"})
+    public ResponseEntity<Plant> updatePlant( @RequestPart("plant") Plant plantDetails) {
+        return plantService.updatePlant(plantDetails);
+    }
+
+    // Update plant details
+    @PutMapping(path = "/plants/update/all")
+    public ResponseEntity<String> updatePlantAndImage( @RequestPart("file") MultipartFile file , @RequestPart("plant") Plant plantDetails) {
+        plantService.updatePlant(plantDetails);
+        return new ResponseEntity<>(plantService.uploadPhoto(plantDetails.getId(), file), HttpStatus.OK);
     }
 
     // Delete plant

@@ -23,7 +23,7 @@ public class Cultivation {
     private Plant plant;
 
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cultivation")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cultivation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("cultivation")
     private List<Measurement> measurements ;
 

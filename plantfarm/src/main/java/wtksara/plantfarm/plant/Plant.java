@@ -1,5 +1,7 @@
 package wtksara.plantfarm.plant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import wtksara.plantfarm.cultivation.Cultivation;
 
 import javax.persistence.*;
@@ -36,7 +38,7 @@ public class Plant {
     private Double amountOfDays;
 
     @JsonIgnore
-    @OneToMany (mappedBy ="plant")
+    @OneToMany (mappedBy ="plant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cultivation> cultivations;
 
     public Plant(){

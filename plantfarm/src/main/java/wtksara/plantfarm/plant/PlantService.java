@@ -128,9 +128,9 @@ public class PlantService {
         return ResponseEntity.ok(plant);
     }
 
-    public ResponseEntity<Plant> updatePlant(Long id, Plant plantDetails){
-        Plant plant = plantRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Plant not exist with id" + id) );
+    public ResponseEntity<Plant> updatePlant(Plant plantDetails){
+        Plant plant = plantRepository.findById(plantDetails.getId()).
+                orElseThrow(() -> new ResourceNotFoundException("Plant not exist with id" + plantDetails.getId()) );
 
         plant.setName(plantDetails.getName());
         plant.setType(plantDetails.getType());
