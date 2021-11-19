@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.Column;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +16,8 @@ public class PatchResponse {
     @Nullable
     private Double actualAmountOfDays;
 
+    @Nullable
+    private Long plantId;
     @Nullable
     private String plantName;
     @Nullable
@@ -35,5 +35,7 @@ public class PatchResponse {
     private Double actualHumidity;
     @Nullable
     private Double actualTemperature;
+    @Nullable
+    private Double actualInsolation;
 
 }

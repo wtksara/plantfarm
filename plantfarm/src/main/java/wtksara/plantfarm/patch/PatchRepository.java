@@ -2,9 +2,6 @@ package wtksara.plantfarm.patch;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import wtksara.plantfarm.plant.Plant;
-import wtksara.plantfarm.response.PatchDetailsResponse;
 import wtksara.plantfarm.response.PatchResponse;
 
 import java.util.List;
@@ -13,8 +10,8 @@ public interface PatchRepository extends JpaRepository<Patch, Long> {
 
     @Query("SELECT new wtksara.plantfarm.response.PatchResponse(" +
             "patch.id, patch.amountOfDays, " +
-            "plant.name, plant.type, plant.humidity, plant.temperature, plant.amountOfDays," +
-            "measurement.humidity, measurement.temperature ) " +
+            "plant.id, plant.name, plant.type, plant.humidity, plant.temperature, plant.amountOfDays," +
+            "measurement.humidity, measurement.temperature, measurement.insolation) " +
 
             "FROM Patch patch " +
             "LEFT JOIN patch.cultivation cultivation " +

@@ -25,12 +25,17 @@ public class PlantController {
         return plantService.findAllByOrderByIdAsc();
     }
 
+    // Get list of all plants by type
+    @GetMapping("/plants/type/{type}")
+    public List<Plant> getAllPlantsByTypeOrderByIdAsc(@PathVariable ("type") String type)  {
+        return plantService.findAllByTypeOrderByIdAsc(type);
+    }
+
     // Get list of all show plants
     @GetMapping("/plants/show")
     public List<Plant> getAllShowPlants() {
         return plantService.findTop3ByOrderByIdAsc();
     }
-
 
     @GetMapping("/plants/{id}/download")
     public ResponseEntity<ByteArrayResource> downloadPhoto (@PathVariable ("id") Long id) {

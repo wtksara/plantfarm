@@ -3,15 +3,8 @@ package wtksara.plantfarm.patch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import wtksara.plantfarm.cultivation.Cultivation;
 import wtksara.plantfarm.cultivation.CultivationController;
-import wtksara.plantfarm.cultivation.CultivationRepository;
 import wtksara.plantfarm.exception.ResourceNotFoundException;
-import wtksara.plantfarm.measurement.Measurement;
-import wtksara.plantfarm.measurement.MeasurementRepository;
-import wtksara.plantfarm.plant.Plant;
-import wtksara.plantfarm.plant.PlantRepository;
-import wtksara.plantfarm.response.PatchDetailsResponse;
 import wtksara.plantfarm.response.PatchResponse;
 
 import java.util.List;
@@ -23,12 +16,6 @@ public class PatchController {
 
     @Autowired
     private PatchRepository patchRepository;
-
-    @Autowired
-    private CultivationRepository cultivationRepository;
-
-    @Autowired
-    private PlantRepository plantRepository;
 
     @Autowired
     private CultivationController cultivationController;
@@ -52,7 +39,6 @@ public class PatchController {
     Patch setPatch(@PathVariable Long patchId, @PathVariable Long plantId)
     {
         Patch patch = patchRepository.findById(patchId).get();
-
         patch.setCultivation(cultivationController.createCultivation(plantId, patchId));
         patch.setAmountOfDays(0.0);
 
@@ -63,13 +49,10 @@ public class PatchController {
     @PutMapping("/patches/{patchId}")
     Patch endPatch(@PathVariable Long patchId){
         Patch patch = patchRepository.findById(patchId).get();
-
         patch.getCultivation().setFinished(true);
         patch.setCultivation(null);
         patch.setAmountOfDays(0.0);
 
         return patchRepository.save(patch);
     }
-
-
 }

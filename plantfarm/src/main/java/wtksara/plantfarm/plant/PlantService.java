@@ -1,6 +1,5 @@
 package wtksara.plantfarm.plant;
 
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
@@ -43,6 +42,10 @@ public class PlantService {
 
     public List<Plant> findTop3ByOrderByIdAsc() { return plantRepository.findTop3ByOrderByIdAsc();}
 
+    public List<Plant> findAllByTypeOrderByIdAsc(String type) {
+        return plantRepository.findAllByTypeOrderByIdAsc(type);
+    }
+
     public Plant createPlant(Plant plant){
         return plantRepository.save(plant);
     }
@@ -59,20 +62,6 @@ public class PlantService {
         }
         return null;
     }
-//    public byte [] downloadPhoto(Long id) {
-//        Plant plant = plantRepository.findById(id).
-//                orElseThrow(() -> new ResourceNotFoundException("Plant not exist with id" + id) );
-//
-//        String path = String.format("%s/%s", bucketName, id);
-//
-//        try {
-//            S3Object s3Object = s3Client.getObject(path, plant.getPhoto());
-//            return IOUtils.toByteArray(s3Object.getObjectContent());
-//        }
-//        catch (AmazonServiceException | IOException e) {
-//            throw new IllegalStateException("Failed to download file to s3", e);
-//        }
-//    }
 
     public Plant getPlantByIdToDownload(Long id){
         Plant plant = plantRepository.findById(id).
@@ -151,6 +140,7 @@ public class PlantService {
         response.put ("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
+
 
 
 }

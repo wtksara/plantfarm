@@ -26,7 +26,6 @@ public class CultivationController {
         return cultivationRepository.findAllByOrderByIdDesc();
     }
 
-
     public Cultivation createCultivation(Long plantId, Long patchId) {
         Cultivation cultivation = new Cultivation();
         Plant plant = plantRepository.findById(plantId).get();
