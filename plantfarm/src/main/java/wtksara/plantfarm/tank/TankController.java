@@ -36,7 +36,7 @@ public class TankController {
     }
 
     // Water plants
-    @PostMapping("tank/watering")
+    @PostMapping("/tank/watering")
     public ResponseEntity <?> waterPants(){
        try {
            mqttGateway.sendToMqtt("on", "waterPump1/watering");

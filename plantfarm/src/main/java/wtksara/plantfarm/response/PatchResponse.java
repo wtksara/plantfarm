@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,5 +37,8 @@ public class PatchResponse {
     private Double actualHumidity;
     @Nullable
     private Double actualTemperature;
+    @Nullable
+    private Date date;
+
 
 }

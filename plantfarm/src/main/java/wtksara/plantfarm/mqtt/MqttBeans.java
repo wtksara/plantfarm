@@ -100,6 +100,7 @@ public class MqttBeans {
         MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("serverOut", mqttClientFactory());
         messageHandler.setAsync(true);
         messageHandler.setDefaultTopic("#");
+        messageHandler.setDefaultQos(1);
         messageHandler.setDefaultRetained(false);
         return messageHandler;
     }
