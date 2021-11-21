@@ -54,7 +54,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                                 "/api/plants/*/download",
                                 "/api/cultivation",
                                 "/api/patches",
-                                "/api/tank",
+                                "/api/tank/*",
+                                "/api/tank/watering",
                                 "/api/auth/login"
                         ).permitAll()
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated())

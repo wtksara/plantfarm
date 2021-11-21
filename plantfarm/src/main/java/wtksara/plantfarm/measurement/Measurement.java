@@ -31,8 +31,6 @@ public class Measurement {
     @Column(name ="temperature")
     private Double temperature;
 
-    @Column(name ="insolation")
-    private Double insolation;
 
     public Long getId() {
         return id;
@@ -57,10 +55,6 @@ public class Measurement {
     public void setTemperature(Double temperature) {
         this.temperature = temperature;
     }
-
-    public Double getInsolation() { return insolation; }
-
-    public void setInsolation(Double insolation) { this.insolation = insolation; }
 
     public Date getDate() {
         return date;

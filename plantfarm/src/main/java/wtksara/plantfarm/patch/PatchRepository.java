@@ -11,7 +11,7 @@ public interface PatchRepository extends JpaRepository<Patch, Long> {
     @Query("SELECT new wtksara.plantfarm.response.PatchResponse(" +
             "patch.id, patch.amountOfDays, " +
             "plant.id, plant.name, plant.type, plant.humidity, plant.temperature, plant.amountOfDays," +
-            "measurement.humidity, measurement.temperature, measurement.insolation) " +
+            "measurement.humidity, measurement.temperature) " +
 
             "FROM Patch patch " +
             "LEFT JOIN patch.cultivation cultivation " +

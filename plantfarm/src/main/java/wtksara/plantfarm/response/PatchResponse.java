@@ -35,7 +35,5 @@ public class PatchResponse {
     private Double actualHumidity;
     @Nullable
     private Double actualTemperature;
-    @Nullable
-    private Double actualInsolation;
 
 }

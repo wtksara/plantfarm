@@ -33,7 +33,6 @@ public class MeasurementController {
             measurement.setCultivation(cultivation);
             measurement.setHumidity(humidity);
             measurement.setTemperature(temperature);
-            //measurement.setInsolation(insolation);
 
             Date date = new Date();
             measurement.setDate(date);
