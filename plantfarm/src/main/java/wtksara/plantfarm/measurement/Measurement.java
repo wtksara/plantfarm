@@ -16,7 +16,7 @@ public class Measurement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "cultivation_id", referencedColumnName = "id")
     @JsonIgnoreProperties("measurements")
     private Cultivation cultivation;
