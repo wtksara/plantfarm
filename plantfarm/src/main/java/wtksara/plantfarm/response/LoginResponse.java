@@ -1,5 +1,6 @@
 package wtksara.plantfarm.response;
 
+// Forma do logowania
 public class LoginResponse {
 
     private String token;

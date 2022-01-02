@@ -14,21 +14,26 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+// Komponent ułatwiający prace z tokenem
 @Component
 public class JWTTokenHelper {
 
-
+    // Zmienna przechowująca nazwe aplikacji
     @Value("${jwt.auth.app}")
     private String appName;
 
+    // Zmienna przechowująca sekretny klucz
     @Value("${jwt.auth.secret_key}")
     private String secretKey;
 
+    // Zmienna przechowująca czas życia tokenu
     @Value("${jwt.auth.expires_in}")
     private int expiresIn;
 
+    // HMAC z użyciem SHA-256 wybrany jako sposób zakodowania tokenu
     private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 
+    // Metoda pozwalająca na uzyskanie wszystkich roszczeń zawartych w tokenie
     private Claims getAllClaimsFromToken(String token) {
         Claims claims;
         try {
@@ -42,6 +47,7 @@ public class JWTTokenHelper {
         return claims;
     }
 
+    // Metoda uzyskująca nazwe użytkownika z tokenu
     public String getUsernameFromToken(String token) {
         String username;
         try {
@@ -52,9 +58,8 @@ public class JWTTokenHelper {
         }
         return username;
     }
-
+    // Metoda generująca token dla wskazanego użytkownika
     public String generateToken(String username) throws InvalidKeySpecException, NoSuchAlgorithmException {
-
         return Jwts.builder()
                 .setIssuer( appName )
                 .setSubject(username)
@@ -64,25 +69,29 @@ public class JWTTokenHelper {
                 .compact();
     }
 
+    // Metoda generująca date zakończenia działania tokenu
     private Date generateExpirationDate() {
         return new Date(new Date().getTime() + expiresIn * 1000);
     }
 
+    // Walidacja tokenu
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (
                 username != null &&
+                        // Sprawdzenie czy nazwa uzytkownika zgadza sie z nazwa w bazie
                         username.equals(userDetails.getUsername()) &&
+                        // Oraz czy token jest nadal aktywny
                         !isTokenExpired(token)
         );
     }
-
+    // Sprawdzenie czy token jest nadal aktywny
     public boolean isTokenExpired(String token) {
         Date expireDate=getExpirationDate(token);
         return expireDate.before(new Date());
     }
 
-
+    // Metoda pozwalająca na pobranie daty zakonczenia działania tokenu
     private Date getExpirationDate(String token) {
         Date expireDate;
         try {
@@ -94,18 +103,7 @@ public class JWTTokenHelper {
         return expireDate;
     }
 
-
-    public Date getIssuedAtDateFromToken(String token) {
-        Date issueAt;
-        try {
-            final Claims claims = this.getAllClaimsFromToken(token);
-            issueAt = claims.getIssuedAt();
-        } catch (Exception e) {
-            issueAt = null;
-        }
-        return issueAt;
-    }
-
+    // Metoda uzyskująca token z nagłówka http
     public String getToken( HttpServletRequest request ) {
 
         String authHeader = getAuthHeaderFromHeader( request );
@@ -116,6 +114,7 @@ public class JWTTokenHelper {
         return null;
     }
 
+    // Uzyskanie nagłówka http
     public String getAuthHeaderFromHeader( HttpServletRequest request ) {
         return request.getHeader("Authorization");
     }

@@ -2,6 +2,7 @@ package wtksara.plantfarm.tank;
 
 import javax.persistence.*;
 
+// Encja przechowujaca informacje o zbiorniku
 @Entity
 @Table(name = "tank")
 public class Tank {
@@ -10,6 +11,7 @@ public class Tank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Zmienna przechowująca wartość poziomu wody
     @Column(name ="level")
     private Integer level;
 

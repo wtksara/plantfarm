@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
+// Klasa konfiguracyjna
 @SpringBootApplication
 public class PlantfarmApplication {
 
@@ -26,16 +27,24 @@ public class PlantfarmApplication {
 	}
 
 	@PostConstruct
-	protected void init(){
-//		List<Authority> authorityList = new ArrayList<>();
-//		authorityList.add(createAuthority("ADMIN"));
-//		Client user = new Client();
-//		user.setUsername("admin");
-//		user.setPassword(passwordEncoder.encode(("admin")));
-//		user.setEnabled(true);
-//		userRepository.save(user);
+	// Metoda wywoływana po wstrzykiwaniu zależności
+	protected void init() {
+		// Sprawdzenie czy użytkownik istnieje w bazie
+		Client client =  userRepository.findByUsername("admin");
+		if (client == null ) {
+			// Dodanie nowego użytkownika
+			List<Authority> authorityList = new ArrayList<>();
+			authorityList.add(createAuthority("ADMIN"));
+			Client user = new Client();
+			user.setUsername("admin");
+			user.setAuthorities(authorityList);
+			user.setPassword(passwordEncoder.encode(("admin")));
+			user.setEnabled(true);
+			userRepository.save(user);
+		}
 	}
 
+	// Metoda odpowiedzialana za utworzenie roli
 	private Authority createAuthority (String role){
 		Authority authority = new Authority();
 		authority.setRole(role);

@@ -10,6 +10,7 @@ import wtksara.plantfarm.plant.Plant;
 import javax.persistence.*;
 import java.util.List;
 
+// Encja przechowujaca informacje o uprawach
 @Entity
 @Table(name = "cultivation")
 public class Cultivation {
@@ -18,28 +19,37 @@ public class Cultivation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Realizacja relacji N do 1
     @ManyToOne(fetch = FetchType.EAGER)
+
+    // Obiekt przechowujący roślinę
     @JoinColumn(name = "plant_id", referencedColumnName = "id")
     private Plant plant;
 
-
-    @OneToMany(mappedBy = "cultivation", cascade = CascadeType.ALL, orphanRemoval = true)
+    // Realizacja relacji 1 do N
+    @OneToMany(mappedBy = "cultivation", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("cultivation")
+    // Lista sporządzonych pomiarów dla danej uprawy
     private List<Measurement> measurements ;
 
+    // Informacje o plantacji są ignorowane, gdyż są wykorzystywane w innej encji
     @JsonIgnore
+    // Realizacja relacji 1 do 1
     @OneToOne(mappedBy = "cultivation")
-    private Patch patch ;
+    private Patch patch;
 
+    // Zmienna przechowujaca numer plantacji na której została uprawiana dana uprawa
     @Column(name ="grow_patch")
     private Long growPatch;
 
+    // Zmienna przechowujaca stan uprawy
     @Column(name ="finished")
     private Boolean finished;
 
     public Cultivation() {
 
     }
+
     public Long getId() {
         return id;
     }

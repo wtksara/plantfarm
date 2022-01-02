@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 
 import java.util.Date;
 
+// Forma odpowiedzi wykorzystywana do własnego zapytania
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -2,10 +2,10 @@ package wtksara.plantfarm.plant;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+// Repozytorium dla encji Plant
 @Repository
 public interface PlantRepository extends JpaRepository<Plant, Long> {
 

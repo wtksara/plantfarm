@@ -1,13 +1,11 @@
 package wtksara.plantfarm.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import wtksara.plantfarm.security.Client;
 
-
+// Komponent pełni role serwisu
 @Service
 public class ClientService implements UserDetailsService {
 
@@ -15,6 +13,7 @@ public class ClientService implements UserDetailsService {
     ClientRepository clientRepository;
 
     @Override
+    // Metoda sprawdzająca czy dany użytkownik istnieje w bazie
     public Client loadUserByUsername(String username) throws UsernameNotFoundException {
         Client client = clientRepository.findByUsername(username);
         if (client==null){

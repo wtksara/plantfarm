@@ -11,13 +11,18 @@ import wtksara.plantfarm.config.JWTTokenHelper;
 import wtksara.plantfarm.response.LoginResponse;
 
 import java.security.NoSuchAlgorithmException;
-import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
 
-@RestController
-@RequestMapping("/api/")
+// Pozwolenie na wysyłanie żądań cross-origin dla adresu http://localhost:3000/
 @CrossOrigin(origins = "http://localhost:3000/")
+
+// Komponent pełni role kontrolera
+@RestController
+
+// Mapowanie na poziomie klasy
+@RequestMapping("/api/")
 public class ClientController {
+
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -26,17 +31,18 @@ public class ClientController {
     JWTTokenHelper jWTTokenHelper;
 
     @PostMapping("/auth/login")
+    // Metoda odpowiedzialna za przeprowadzenie procesu logowania
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
 
+        // Uwierzytelnienie użytkownika
         final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        Client client = (Client) authentication.getPrincipal();
+         Client client = (Client) authentication.getPrincipal();
+        // Wygenerowanie tokenu
         String jwtToken = jWTTokenHelper.generateToken(client.getUsername());
-
         LoginResponse response = new LoginResponse();
         response.setToken(jwtToken);
-
+        // Zwrócenie tokenu
         return ResponseEntity.ok(response);
     }
 }

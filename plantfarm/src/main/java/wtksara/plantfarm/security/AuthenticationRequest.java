@@ -1,5 +1,5 @@
 package wtksara.plantfarm.security;
-
+// Forma do logowania
 public class AuthenticationRequest {
     private String username;
     private String password;

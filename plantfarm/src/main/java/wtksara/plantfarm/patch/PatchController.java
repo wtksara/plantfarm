@@ -9,50 +9,54 @@ import wtksara.plantfarm.response.PatchResponse;
 
 import java.util.List;
 
+// Pozwolenie na wysyłanie żądań cross-origin dla adresu http://localhost:3000/
 @CrossOrigin(origins = "http://localhost:3000/")
+
+// Komponent pełni role kontrolera
 @RestController
+
+// Mapowanie na poziomie klasy
 @RequestMapping("/api/")
 public class PatchController {
 
+    // Wstrzykiwanie zależności, a dokładniej repozytorium patchRepository
     @Autowired
     private PatchRepository patchRepository;
 
     @Autowired
     private CultivationController cultivationController;
 
-    // Get all paches
     @GetMapping("/patches")
+    // Metoda zwracająca wszystkie plantacje
     public List<PatchResponse> getAllPatches() {
         return patchRepository.getAllPatches();
     }
 
-    // Get patch by id
     @GetMapping("/patches/{id}")
+    // Metoda zwracająca daną plantację znaleziona po id, jeśli istnieje
     public ResponseEntity<Patch> getPatchById(@PathVariable Long id) {
         Patch patch = patchRepository.findById(id).
             orElseThrow(() -> new ResourceNotFoundException("Patch not exist with id" + id) );
         return ResponseEntity.ok(patch);
     }
 
-    // Creating cultivation on selected patch
-    @PutMapping("/patches/{patchId}/plant/{plantId}")
+    @PutMapping("/patches/{patchId}/plants/{plantId}")
+    // Metoda odpowiedzialana za utworzenie uprawy, a następnie ustawienie jej na danej plantacji
     Patch setPatch(@PathVariable Long patchId, @PathVariable Long plantId)
     {
         Patch patch = patchRepository.findById(patchId).get();
         patch.setCultivation(cultivationController.createCultivation(plantId, patchId));
         patch.setAmountOfDays(0.0);
-
         return patchRepository.save(patch);
     }
 
-    // Ending cultivation on selected patch
     @PutMapping("/patches/{patchId}")
+    // Metoda odpowiedzialana za zakończenie uprawy na danej plantacji
     Patch endPatch(@PathVariable Long patchId){
         Patch patch = patchRepository.findById(patchId).get();
         patch.getCultivation().setFinished(true);
         patch.setCultivation(null);
         patch.setAmountOfDays(0.0);
-
         return patchRepository.save(patch);
     }
 }

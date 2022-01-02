@@ -1,16 +1,12 @@
 package wtksara.plantfarm.plant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import wtksara.plantfarm.cultivation.Cultivation;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-
+// Encja przechowujaca informacje o roślinach
 @Entity
 @Table(name = "plant")
 public class Plant {
@@ -19,26 +15,34 @@ public class Plant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Nazwa rośliny
     @Column(name ="name")
     private String name;
 
+    // Typ rośliny
     @Column(name ="type")
     private String type;
 
+    // Scieżka do zdjęcia
     @Column(name ="photo")
     private String photo;
 
+    // Wymagana wartość wilgotności
     @Column(name ="humidity")
     private Double humidity;
 
+    // Wymagana wartość temperatury
     @Column(name ="temperature")
     private Double temperature;
 
+    // Wymagany czas wzrostu rośliny
     @Column(name ="amountofdays")
     private Double amountOfDays;
 
     @JsonIgnore
-    @OneToMany (mappedBy ="plant", cascade = CascadeType.ALL, orphanRemoval = true)
+    // Realizacja relacji 1 do N
+    @OneToMany (mappedBy ="plant", cascade = CascadeType.ALL)
+    // Lista upraw danej rośliny
     private List<Cultivation> cultivations;
 
     public Plant(){
@@ -110,24 +114,4 @@ public class Plant {
         this.amountOfDays = amountOfDays;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Plant plant = (Plant) o;
-        return Objects.equals(id, plant.id) &&
-                Objects.equals(name, plant.name) &&
-                Objects.equals(type, plant.type) &&
-                Objects.equals(photo, plant.photo) &&
-                Objects.equals(humidity, plant.humidity) &&
-                Objects.equals(temperature, plant.temperature) &&
-                Objects.equals(amountOfDays, plant.amountOfDays) &&
-                Objects.equals(cultivations, plant.cultivations);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, type, photo, humidity, temperature, amountOfDays, cultivations);
-    }
 }

@@ -1,16 +1,14 @@
 package wtksara.plantfarm.mqtt;
 
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.handler.annotation.Header;
-import wtksara.plantfarm.tank.Tank;
 
+// Konfiguracja wysyłania wiadomości
 @MessagingGateway(defaultRequestChannel = "mqttOutboundChannel")
 public interface MqttGateway {
 
+    // Można wysyłać wiadomości na różne tematy, jeśli jednak temat nie zostanie określony to wybierany jest domyślny.
+    // Zmienna data zawiera treść wiadomości do wysłania, a topic to nazwę tematu
     void sendToMqtt(String data, @Header(MqttHeaders.TOPIC) String topic);
 }
