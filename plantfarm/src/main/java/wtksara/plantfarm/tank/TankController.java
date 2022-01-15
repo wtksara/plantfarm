@@ -32,21 +32,22 @@ public class TankController {
     }
 
     // Metoda umożliwiająca aktualizacje aktualnego poziomu wody w zbiorniku
-    public void updateTank(Long id, Integer value){
+    public void updateTank(Long id, Integer tankLevel, Integer insolationValue){
         Tank tank = tankRepository.findById(id).
                 orElseThrow(() -> new ResourceNotFoundException("Tank not exist with id" + id) );
-        tank.setLevel(value);
+        tank.setLevel(tankLevel);
+        tank.setInsolation(insolationValue);
         tankRepository.save(tank);
     }
 
     @PostMapping("/tank/{id}")
     // Metoda wysylajaca na dany temat wiadomosc o checi rozpoczecia podlewania
     public ResponseEntity <?> waterPants(@PathVariable Long id){
-        String topic = "waterPump/" + id.toString() + "/watering";
+        String topic = "waterPump/watering/"+ id.toString() ;
 
        try {
            // Próba wykonanania podlania
-           mqttGateway.sendToMqtt("on", "waterPump1/watering");
+           mqttGateway.sendToMqtt("on", topic);
        }
        catch (Exception ex) {
         ex.printStackTrace();

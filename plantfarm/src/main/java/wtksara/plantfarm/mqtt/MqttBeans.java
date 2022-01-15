@@ -37,7 +37,7 @@ public class MqttBeans {
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
         // Ustawienie własciwości połaczenia z brokerem MQTT.
-        options.setServerURIs(new String [] {"tcp://192.168.1.43:1883"});
+        options.setServerURIs(new String [] {"tcp://192.168.1.20:1883"});
         // Zapamietywanie stanu po uruchomieniu i ponownym połączeniu klienta oraz serwera
         options.setCleanSession(true);
         factory.setConnectionOptions(options);
@@ -55,7 +55,7 @@ public class MqttBeans {
     public MessageProducer inbound() {
         // Określenie listy tematów, które bedą subskrybowane
         MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("serverIn",
-                mqttClientFactory(), "patch1/measurements", "patch2/measurements", "waterPump1/measurements");
+                mqttClientFactory(), "patch/#", "waterPump/measurements/#");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         // Określenie jakości obsługi
@@ -63,6 +63,7 @@ public class MqttBeans {
         adapter.setOutputChannel(mqttInputChannel());
         return adapter;
     }
+
 
     @Bean
     @ServiceActivator(inputChannel = "mqttInputChannel")
@@ -73,6 +74,7 @@ public class MqttBeans {
             @Override
             // Obsługa przychodzących wiadomości
             public void handleMessage(Message<?> message) throws MessagingException {
+
                 // Odczytanie nazwy tematu na który została nadana wiadomości
                 // W zależności od tematu przetwarzanie odbywa się w inny sposób
                 String topic = message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC).toString();
@@ -85,8 +87,19 @@ public class MqttBeans {
                         Long patchId = Long.parseLong(topic.replaceAll("[^0-9]", ""));
                         // Odczytanie z wiadomości poszczególnych pomiarów
                         String[] values = message.getPayload().toString().split(";");
+                        double humidity = 0;
+                        // Dostosowanie wartości pomiaru wilgotności
+                        if (Integer.parseInt(values[0]) < 300){
+                            humidity = 100;
+                        }
+                        else if (Integer.parseInt(values[0]) > 550) {
+                            humidity = 0;
+                        }
+                        else {
+                            humidity = (1.00-((Double.parseDouble(values[0]) - 300.00)/250.00))*100.00;
+                        }
                         // Zapisanie pomiaru dla wybranej uprawy na danej plantajci
-                        measurementController.createMeasurement(patchId, Double.parseDouble(values[0]), Double.parseDouble(values[1]));
+                        measurementController.createMeasurement(patchId,  humidity, Double.parseDouble(values[1]));
                     }
                 }
                 // Temat "waterPump" oznacza że wiadomości są nadawane przez pompe wody
@@ -96,10 +109,34 @@ public class MqttBeans {
                         // Jeśli nie, to oznacza że urządzenie przesyła w wiadomości sporzadzone pomiary
                         // Odczytanie z tematu numeru zbiornika
                         Long tankId = Long.parseLong(topic.replaceAll("[^0-9]", ""));
-                        // Odczytanie z wiadomości poziomu wody w zbiorniku
-                        Integer value = Integer.parseInt(message.getPayload().toString());
+                        // Odczytanie z wiadomości poszczególnych pomiarów
+                        String[] values = message.getPayload().toString().split(";");
+                        // Dostosowanie wartości pomiaru poziomu wody w zbiorniku
+                        Integer valueOfTank = Integer.parseInt(values[0]);
+                        Integer level;
+                        if (valueOfTank > 30){
+                            level = 0 ;
+                        }
+                        else if ( valueOfTank < 6 ){
+                            level = 100;
+                        }
+                        else {
+                            level =  (int) ((1.00 - ((Double.valueOf(valueOfTank) - 6.00) / 24.00)) * 100 );
+                        }
+                        // Dostosowanie wartości poziomu nasłonecznienia
+                        Integer valueOfInsolation= Integer.parseInt(values[1]);
+                        Integer insolation;
+                        if (valueOfInsolation > 1024){
+                            insolation = 0;
+                        }
+                        else if (valueOfInsolation < 500 ){
+                            insolation = 100;
+                        }
+                        else {
+                            insolation = (int) ((1.00 - ((Double.valueOf(valueOfInsolation) - 500.00) / 524.00)) * 100 );
+                        }
                         // Zapisanie stanu zbiornika
-                        tankController.updateTank(tankId, (value / 2));
+                        tankController.updateTank(tankId, level, insolation);
                     }
                 }
             }

@@ -15,6 +15,10 @@ public class Tank {
     @Column(name ="level")
     private Integer level;
 
+    // Zmienna przechowująca poziom nasłonecznienia w danym miejscu
+    @Column(name ="insolation")
+    private Integer insolation;
+
     public Tank(){
 
     }
@@ -25,5 +29,13 @@ public class Tank {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Integer getInsolation() {
+        return insolation;
+    }
+
+    public void setInsolation(Integer insolation) {
+        this.insolation = insolation;
     }
 }
