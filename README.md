@@ -16,3 +16,4 @@ The following libraries were used in the project: Spring Web, Spring Boot DevToo
 
 
 #### Database structure and relations
+![Alt text](/schemat.png)
