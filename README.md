@@ -2,7 +2,7 @@
 ### System architecture
 The system includes a remote water pump control system and a plantation control system, an MQTT broker, a web application and data storage methods.The main element in the system is the MQTT broker running on the Raspberry PI, responsible for the exchange of information between the web application, the plantation control system and the water pump control system.
 
-![Alt text](/Architecture.png)
+<img src="/Architecture.png" width="720" height="324">
 
 The system assumes two possibilities of use, the first is the operation of the plantation, the second is the operation of the water pump. Both control systems are managed by microcontrollers, which are responsible for the operation of appropriate sensors and devices depending on the intended purpose.
 In addition, microcontrollers are also responsible for communication with the MQTT broker in order to transfer the obtained measurements or perform an action initiated by the web application.
@@ -16,9 +16,14 @@ The following libraries were used in the project: Spring Web, Spring Boot DevToo
 
 
 #### Database structure and relations
-![Alt text](/schemat.png)
+<img src="/schemat.png" width="666" height="474">
 
 #### Amazon S3
 The project uses the paid Amazon S3 mass storage service offered by Amazon Web Service to store and download plant images. 
 
 The process of adding a new plant with its picture is presented. The client, i.e. the React application, sends the graphics and data about the plant to the server using the form. Then the class of the controller responsible for handling the given entity, processes the input parameters and calls the appropriate services. A service responsible for saving plant data to the database and a service supporting image transfer to the cloud are respectively launched. The created image file path is saved to the appropriate plant in the database.
+
+<img src="/amazon.png" width="250" height="333">
+
+#### Security
+The project decided to secure access to certain resources, due to the potential interference with the database and forcing undesirable actions. For this purpose, it was decided to use two tools, i.e. Spring Security and JSON Web Token.
