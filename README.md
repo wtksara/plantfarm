@@ -27,3 +27,6 @@ The process of adding a new plant with its picture is presented. The client, i.e
 
 #### Security
 The project decided to secure access to certain resources, due to the potential interference with the database and forcing undesirable actions. For this purpose, it was decided to use two tools, i.e. Spring Security and JSON Web Token.
+
+### Hardware part
+In the project, it is possible to monitor the condition of the plantation on the basis of measurements made by the microcontroller. The photos show the actual operation of the system.
