@@ -31,6 +31,6 @@ The project decided to secure access to certain resources, due to the potential 
 ### Hardware part
 In the project, it is possible to monitor the condition of the plantation on the basis of measurements made by the microcontroller. The photos show the actual operation of the system.
 
-<img src="/1.jpg" width="800" height="600">
+<img src="/1.jpg" width="666" height="500">
 
-<img src="/2.jpg" width="600" height="800">
+<img src="/2.jpg" width="500" height="666">
